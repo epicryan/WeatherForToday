@@ -14,13 +14,15 @@ public class WeatherGUI extends javax.swing.JFrame {
     public WeatherGUI() {
         initComponents();
     }
-
+    
+    
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
         jButton1 = new javax.swing.JButton();
         jLabel1 = new javax.swing.JLabel();
+        jButton2 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setResizable(false);
@@ -34,15 +36,27 @@ public class WeatherGUI extends javax.swing.JFrame {
 
         jLabel1.setText("Weather by Ryan Wells");
 
+        jButton2.setText("Help");
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2ActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(88, 88, 88)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jLabel1)
-                    .addComponent(jButton1))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(88, 88, 88)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(jLabel1)
+                            .addComponent(jButton1)))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(122, 122, 122)
+                        .addComponent(jButton2)))
                 .addContainerGap(106, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
@@ -52,7 +66,9 @@ public class WeatherGUI extends javax.swing.JFrame {
                 .addComponent(jLabel1)
                 .addGap(38, 38, 38)
                 .addComponent(jButton1)
-                .addContainerGap(69, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 35, Short.MAX_VALUE)
+                .addComponent(jButton2)
+                .addContainerGap())
         );
 
         pack();
@@ -60,22 +76,28 @@ public class WeatherGUI extends javax.swing.JFrame {
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         try {
-            
-            Document divTag = Jsoup.connect("http://weather.ericson.net/weather/forecast/Houston-TX").get();
+            String City=JOptionPane.showInputDialog("City");
+            Document divTag = Jsoup.connect("http://weather.ericson.net/weather/forecast/"+City).get();
             Elements CurrentTempinfo = divTag.select("div#weather-now-temp");
             String Temp= CurrentTempinfo.toString();
-            Temp=Temp.substring(51, 59);
-            Temp=Temp.substring(0,4);
+            Temp=Temp.replace("<div id=\"weather-now-temp\" class=\"weather-color-5\">", "");
+            Temp=Temp.replace("&deg;", "");
+            Temp=Temp.replace("</div>", "");
             Temp="Current Temperature: "+Temp;
             JOptionPane.showMessageDialog(null, Temp);
-            
-        } catch (IOException ex) {
+                   } catch (IOException ex) {
 
-            JOptionPane.showMessageDialog(null, "Check your Internet Connection");
+            JOptionPane.showMessageDialog(null, "Error Make sure your City is correct and Check your Internet Connection");
             Logger.getLogger(WeatherGUI.class.getName()).log(Level.SEVERE, null, ex);
             
         }
     }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+        JOptionPane.showMessageDialog(null, "If there are Many Different Cities with the same name try Typing a \"-\" after then the States Abbreviation.");
+        JOptionPane.showMessageDialog(null, "Ex: Galveston ------> Galveston-TX");
+        JOptionPane.showMessageDialog(null, "Make sure you are connected to the internet");
+    }//GEN-LAST:event_jButton2ActionPerformed
 
     public static void main(String args[]) {
 
@@ -87,6 +109,7 @@ public class WeatherGUI extends javax.swing.JFrame {
     }
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;
+    private javax.swing.JButton jButton2;
     private javax.swing.JLabel jLabel1;
     // End of variables declaration//GEN-END:variables
 }
