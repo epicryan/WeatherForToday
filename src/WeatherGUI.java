@@ -12,10 +12,10 @@ import org.jsoup.select.*;
 public class WeatherGUI extends javax.swing.JFrame {
 
     public WeatherGUI() throws IOException {
-        initComponents();
-        Parser p = new Parser();
-        String f = p.getTemperature();
-        System.out.println(f);
+//        initComponents();
+//        Parser p = new Parser();
+//        String f = p.getTemperature();
+//        System.out.println(f);
     }
 
     @SuppressWarnings("unchecked")
